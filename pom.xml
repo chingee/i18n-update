@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>chingee.wso2</groupId>
+	<artifactId>i18n-update</artifactId>
+	<version>1.0.1</version>
+	<packaging>jar</packaging>
+
+	<name>i18n-update</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>1.4.0.RELEASE</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.11.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<!-- http://www.mojohaus.org/appassembler/appassembler-maven-plugin/index.html -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.10</version>
+				<configuration>
+					<!-- 生成linux, windows两种平台的执行脚本 -->
+					<platforms>
+						<platform>windows</platform>
+						<platform>unix</platform>
+					</platforms>
+					<!-- 根目录 -->
+					<assembleDirectory>${project.build.directory}/i18n-update</assembleDirectory>
+					<!-- 打包的jar，以及maven依赖的jar放到这个目录里面 -->
+					<repositoryName>lib</repositoryName>
+					<!-- 可执行脚本的目录 -->
+					<binFolder>bin</binFolder>
+					<!-- 配置文件的目标目录 -->
+					<configurationDirectory>conf</configurationDirectory>
+					<!-- 拷贝配置文件到上面的目录中 -->
+					<copyConfigurationDirectory>true</copyConfigurationDirectory>
+					<!-- 从哪里拷贝配置文件 (默认src/main/config) -->
+					<configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+					<!-- lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar放到lib目录 -->
+					<repositoryLayout>flat</repositoryLayout>
+					<encoding>UTF-8</encoding>
+					<logsDirectory>logs</logsDirectory>
+					<tempDirectory>tmp</tempDirectory>
+					<programs>
+						<program>
+							<id>i18n-update</id>
+							<!-- 启动类 -->
+							<mainClass>chingee.springboot.App</mainClass>
+							<jvmSettings>
+								<extraArguments>
+									<extraArgument>-server</extraArgument>
+									<extraArgument>-Xmx1G</extraArgument>
+									<extraArgument>-Xms1G</extraArgument>
+								</extraArguments>
+							</jvmSettings>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

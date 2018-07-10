@@ -50,10 +50,9 @@ Temporary Items
 *.class
 *.log
 *.properties
-*.xml
-*.json
 
 /target
 /.settings
 *.classpath
 .project
+src/main/resource/logback-spring.xml
